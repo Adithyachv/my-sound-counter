@@ -9,6 +9,7 @@ const resetBtn = document.getElementById("resetBtn");
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = "en-US"; // Set language to English
 recognition.continuous = true; // Keep listening until manually stopped
+recognition.interimResults = true; // Get interim results (as user speaks)
 
 // Start listening when the Start button is clicked
 startBtn.addEventListener("click", () => {
@@ -18,7 +19,13 @@ startBtn.addEventListener("click", () => {
 
 // Handle speech recognition results
 recognition.onresult = (event) => {
-    const transcript = event.results[event.results.length - 1][0].transcript.trim();
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        transcript += result[0].transcript; // Combine all results
+    }
+
+    transcript = transcript.trim();
     console.log("Detected:", transcript);
 
     if (transcript.toLowerCase() === targetSentence.toLowerCase()) {
@@ -31,7 +38,8 @@ recognition.onresult = (event) => {
             alert("108 counts reached!");
         }
     }
-    // Restart listening after every recognition (to keep counting continuously)
+
+    // Restart listening after every result (to keep counting continuously)
     recognition.start();
 };
 
