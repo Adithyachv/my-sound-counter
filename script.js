@@ -1,5 +1,5 @@
 let count = 0; // Keeps track of the number of times the sentence is spoken
-const targetSentence = "hare krishna hare krishna krishna krishna hare hare hare rama hare rama rama rama hare hare";
+const targetSentence = "jai shree krishna";
 const counterDisplay = document.getElementById("counter");
 const alarm = document.getElementById("alarm");
 const startBtn = document.getElementById("startBtn");
